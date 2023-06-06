@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+</head>
+
+<body onload="setTranslate('EN')">
+
+
+  <button onclick="setTranslate('TR')">TR</button>
+  <button onclick="setTranslate('EN')">EN</button>
+  <p id="lang"></p>
+  <script src="./useVariableWatcher.js"></script>
+  <script src="./redux.js"></script>
+  <script src="./translate.redux.js"></script>
+  <script>
+
+
+    const store = createStore(todoReducer, []);
+    
+    store.subscribe(() => {
+      const data = store.getState();      
+      data.forEach((value, index, array) => {
+        Object.keys(value).forEach(key => {
+          const pElement = document.getElementById('lang')
+           pElement.textContent = key 
+          })
+      })
+    });
+
+    const [variable, setVariable] = useVariableWatcher('TR', (newValue) => { 
+      console.log('Değişiyotr');
+    });
+
+    setTranslate = (language) => {
+      setVariable(language);
+      store.dispatch({ type: 'LANGUAGE_CHANGE', payload: variable[0] });
+    }
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>
